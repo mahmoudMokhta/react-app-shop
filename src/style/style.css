@@ -1,0 +1,44 @@
+.imageChris{
+    width: 45rem;
+    height: 30rem;
+    background-image: url(../Photos/f1.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    
+}
+
+    @media screen and ( max-width : 975px ) {
+       
+        .ChristmasHome{
+
+           display: none;
+        }
+    }
+ 
+    .ShopHeader{
+        background-image: url(../Photos/Shop1.jpg);
+        height: 70vh;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .btn-cart{
+      border: 1px solid black;
+      
+      cursor: pointer;
+    }
+
+    .cart-page{
+        min-height: 100vh ;
+    }
+    .cursor{
+        cursor:pointer
+    }
+
+
+
+          
+
+            
+     
+    
