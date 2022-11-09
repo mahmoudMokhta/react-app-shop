@@ -16,7 +16,8 @@ import '../style/style.css'
             <Card.Body>
             <Card.Text>{e.type}</Card.Text>
               <Card.Title>{e.price} $</Card.Title>
-              <Card.Title className='text-success'>Avelibale : {e.Avelibale}</Card.Title>
+              
+              <Card.Title className='text-success'>Avelibale : {e.Available}</Card.Title>
               <span className='d-flex justify-content-end ' >
 
               <BsFillCartPlusFill onClick={()=>props.addToCart(e)}  className=' btn-cart fs-2 rounded button p-1' />

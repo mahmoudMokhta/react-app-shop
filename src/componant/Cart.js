@@ -17,8 +17,8 @@ const Cart = (props) => {
               <Card.Body>
                 <Card.Text>{e.type}</Card.Text>
                 <Card.Title>{e.price} $</Card.Title>
-                <Card.Title className={e.Avelibale > 0 ? "text-success" :"text-danger"}>
-                  IN stock : {e.Avelibale}
+                <Card.Title className={e.Available > 0 ? "text-success" :"text-danger"}>
+                  IN stock : {e.Available}
                 </Card.Title>
                 <Card.Title >
                   Count : {e.count}
@@ -45,8 +45,8 @@ const Cart = (props) => {
       )}
     <div className="d-flex justify-content-center ">
       <div className="d-flex p-4">
-      <Button onClick={()=> props.getTotal()} variant="outline-light me-2">get total price</Button>
-      <h2 className="text-light">Total price : {props.totalPrice} $</h2>
+     
+      <h2 className="text-light">Total price : {props.getTotal}</h2>
 
       </div>
     </div>

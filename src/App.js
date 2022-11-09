@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { Routes } from "react-router-dom";
 import Naav from "./componant/Naav";
 import { Route } from "react-router-dom";
@@ -14,140 +14,97 @@ import imgShop6 from "./Photos/shopC6.jpg";
 import imgShop7 from "./Photos/shopC7.jpg";
 import imgShop8 from "./Photos/shopC8.jpg";
 
-class App extends Component {
-  state = {
-    productShop: [
-      { id: 1, price: 100.0, Avelibale: 20, type: "Hood", imgShop: imgShop1 },
-      { id: 2, price: 120.0, Avelibale: 5, type: "Shirt", imgShop: imgShop2 },
-      { id: 3, price: 150.0, Avelibale: 8, type: "Shirt", imgShop: imgShop3 },
-      { id: 4, price: 210.0, Avelibale: 9, type: "Shirt", imgShop: imgShop4 },
-      { id: 5, price: 200.0, Avelibale: 15, type: "Shirt", imgShop: imgShop5 },
-      { id: 6, price: 250.0, Avelibale: 11, type: "Shirt", imgShop: imgShop6 },
-      { id: 7, price: 300.0, Avelibale: 16, type: "jeans", imgShop: imgShop7 },
-      { id: 8, price: 400.0, Avelibale: 3, type: "jeans", imgShop: imgShop8 },
-    ],
-    productCart: [],
-    totalPrice: 0,
-  };
+const App = () => {
+  const [productShop] = useState([
+    { id: 1, price: 100.0, Available: 20, type: "Hood", imgShop: imgShop1 },
+    { id: 2, price: 120.0, Available: 5, type: "Shirt", imgShop: imgShop2 },
+    { id: 3, price: 150.0, Available: 8, type: "Shirt", imgShop: imgShop3 },
+    { id: 4, price: 210.0, Available: 9, type: "Shirt", imgShop: imgShop4 },
+    { id: 5, price: 200.0, Available: 15, type: "Shirt", imgShop: imgShop5 },
+    { id: 6, price: 250.0, Available: 11, type: "Shirt", imgShop: imgShop6 },
+    { id: 7, price: 300.0, Available: 16, type: "jeans", imgShop: imgShop7 },
+    { id: 8, price: 400.0, Available: 3, type: "jeans", imgShop: imgShop8 },
+  ]);
+  const [productCart, setProductCart] = useState([]);
+  
 
   // function addToCart
-  addToCart = (obj) => {
-    // clone
-    let productShop = this.state.productShop;
-    let productCart = this.state.productCart;
-
-    // update
-    productShop.map((e) => {
-      if (obj === e) {
-        productCart.push(obj);
-        e.count = 1;
-        console.log(productCart);
-      }
-      return productCart;
+  let addToCart = (obj) => {
+    let check = productCart.some((e) => {
+      return obj.id === e.id;
     });
-
-    // setState
-    this.setState({ productCart });
-    return productCart;
+    if (check) {
+      obj.count++;
+      setProductCart([...productCart]);
+    } else {
+      obj.count = 1;
+      setProductCart([...productCart, obj]);
+    }
   };
   // function increment
-  increment = (obj) => {
-    // clone
-
-    let productCart = this.state.productCart;
-    // update
-    productCart = productCart.map((e) => {
-      if (obj.id === e.id && e.Avelibale > 0) {
-        e.Avelibale--;
-        e.count++;
-      }
-      return e;
-    });
-    // setState
-    this.setState({ productCart });
-    return productCart;
+  let increment = (obj) => {
+    // productCart = productCart.map((e) => {
+    if (obj.Available > 0) {
+      obj.Available--;
+      obj.count++;
+    }
+    return setProductCart([...productCart]);
   };
 
   // function decrement
 
-  decrement = (obj) => {
-    // clone
-
-    let productCart = this.state.productCart;
-    // update
-    productCart = productCart.map((e) => {
-      if (obj.id === e.id && e.count > 1) {
-        e.Avelibale++;
-        e.count--;
-      }
-      return e;
-    });
-    // setState
-    this.setState({ productCart });
+  let decrement = (obj) => {
+    if (obj.count > 1) {
+      obj.Available++;
+      obj.count--;
+    }
+    return setProductCart([...productCart]);
   };
-  // function delete
+  const myDelete = (obj) => {
+   
+console.log(obj)
+let newProductCart = productCart.filter(e =>{
 
-  delete = (obj) => {
-    // clone
-
-    let productCart = this.state.productCart;
-    // update
-    productCart = productCart.filter((e) => {
-      if (obj.id !== e.id) {
-        return e;
-      }
-    });
-    // setState
-    this.setState({ productCart });
+if (e.id !== obj.id) {
+    
+    return e
+  }  
+})
+setProductCart([...newProductCart]);
   };
 
-  getTotal = () => {
-    // clone
+  
 
-    let productCart = this.state.productCart;
-    let totalPrice = this.state.totalPrice;
-    // update
-    let productCartPrice = productCart.map((e) => {
-      return e.price;
-    });
+    
+   let getTotal = productCart.length > 0  ? productCart.map(e=> e.count*e.price).reduce((z,x)=> z+x) : 0
+   
+  
 
-    productCartPrice.reduce((a, b) => {
-      if (productCart.length === 1) {
-        return (totalPrice = a);
-      } else {
-        return (totalPrice = a + b);
-      }
-    });
-
-    // setState
-    this.setState({ totalPrice });
-  };
-
-  render() {
-    return (
-      <div>
-        <Naav productCartLength={this.state.productCart.length} />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route
-            path="/shop"
-            element={
-              <Shop productShop={this.state.productShop} addToCart={this.addToCart}/>}
-          />
-          <Route
-            path="/cart"
-            element={
-              <Cart
-                productCart={this.state.productCart}
-                increment={this.increment}
-                decrement={this.decrement}
-                delete={this.delete}
-                getTotal={this.getTotal}
-                totalPrice={this.state.totalPrice}/>}/>
-        </Routes>
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <Naav productCartLength={productCart.length} />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/shop"
+          element={<Shop productShop={productShop} addToCart={addToCart} />}
+        />
+        <Route
+          path="/cart"
+          element={
+            <Cart
+              productCart={productCart}
+              increment={increment}
+              decrement={decrement}
+              delete={myDelete}
+              getTotal={getTotal}
+             
+            />
+          }
+        />
+      </Routes>
+    </div>
+  );
+};
 
 export default App;
